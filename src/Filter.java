@@ -1,7 +1,7 @@
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class Filter<T> extends Source<T> {
+public class Filter<T> implements Source<T> {
     private Source<T> source;
     private Predicate<T> predicate;
 
@@ -12,10 +12,10 @@ public class Filter<T> extends Source<T> {
 
     @Override
     public T get() {
-        T item = source.get();
-        if (item == null || predicate.test(item))
-            return item;
-        else
-            return this.get();
+        while (true) {
+            T item = source.get();
+            if (item == null || predicate.test(item))
+                return item;
+        }
     }
 }
