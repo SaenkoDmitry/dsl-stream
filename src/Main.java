@@ -1,19 +1,37 @@
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Main {
 
     public static void main(String[] args) {
-        DSL<Integer> dsl = new DSL(Arrays.asList(1, 2, 5, 5, 8, 3, 10, 5));
-        dsl
-                .filter(x -> x % 2 == 1)
-//                .filter(x -> x % 2 == 1)
-                .map(x -> x * 2)
-                .forEach(System.out::println);
+        new DSL<>(
+                Arrays.asList(
+                    Arrays.asList(1,2,3),
+                    Arrays.asList(4,5,6),
+                    Arrays.asList(7,8,9)
+                )
+        )
+        .flatMap(IteratorSource::new)
+        .filter(x -> x % 2 == 1)
+        .map(x -> "Number " + x)
+        .forEach(System.out::println);
 
-        DSL<List<Integer>> dsl1 = new DSL<>(Arrays.asList(Arrays.asList(1, 5, 8), Arrays.asList(2, 7, 8), Arrays.asList(1, 5, 8)));
+        if (true) return;
+
+        System.out.println("-----");
+        DSL<List<Integer>> dsl1 = new DSL<>(Arrays.asList(
+                Arrays.asList(2, 3, 4),
+                Arrays.asList(5, 6, 7),
+                Arrays.asList(9, 10, 11),
+                Arrays.asList(12, 13, 14)
+        ));
         dsl1
-//                .flatMap(x -> new DSL<Integer>(x))
+                .flatMap(IteratorSource::new)
+                .filter(x -> x % 2 == 0)
+                .map(x -> x * 3)
                 .forEach(System.out::println);
     }
 }
+// TODO Pull Filter with operations: map, flatMap, filter, foreach; clarify paterns
